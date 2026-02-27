@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zavi_soft_task/features/products/presentation/bloc/products/product_listing_bloc.dart';
 import 'package:zavi_soft_task/features/profile/presentation/bloc/profile_bloc.dart';
 
 import 'core/config/routes/app_route.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
           providers: [
             BlocProvider.value(value: sl<ProfileBloc>()),
             BlocProvider.value(value: sl<AuthBloc>()),
+            BlocProvider.value(value: sl<ProductListingBloc>()),
           ],
           child: MediaQuery(
             data: MediaQuery.of(

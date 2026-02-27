@@ -82,7 +82,10 @@ class CustomBottomNav extends StatelessWidget {
                 items[index]['icon'].svg(
                   height: 28.sp,
                   width: 28.sp,
-
+                  colorFilter: ColorFilter.mode(
+                    isActive ? const Color(0xffE54B4B) : const Color(0xFF797979),
+                    BlendMode.srcIn,
+                  ),
                 ),
                 SizedBox(height: 6.h),
                 Text(
@@ -91,7 +94,7 @@ class CustomBottomNav extends StatelessWidget {
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                     color: isActive
-                        ? const Color(0xFF1D1D1D) // yellow
+                        ? const Color(0xffE54B4B) // yellow
                         : const Color(0xFF797979),
                   ),
                 ),

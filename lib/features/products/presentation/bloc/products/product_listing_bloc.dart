@@ -29,7 +29,6 @@ class ProductListingBloc
     LoadAllProductsEvent event,
     Emitter<ProductListingState> emit,
   ) async {
-    print('DEBUG: ProductListingBloc _onLoad');
     emit(ProductListingLoading());
     await _fetchAll(emit);
   }
@@ -38,12 +37,10 @@ class ProductListingBloc
     RefreshAllProductsEvent event,
     Emitter<ProductListingState> emit,
   ) async {
-    print('DEBUG: ProductListingBloc _onRefresh');
     await _fetchAll(emit);
   }
 
   void _onSearch(SearchProductsEvent event, Emitter<ProductListingState> emit) {
-    print('DEBUG: ProductListingBloc _onSearch query: ${event.query}');
     if (state is ProductListingLoaded) {
       final currentState = state as ProductListingLoaded;
       final query = event.query.toLowerCase();
@@ -67,7 +64,6 @@ class ProductListingBloc
   }
 
   Future<void> _fetchAll(Emitter<ProductListingState> emit) async {
-    print('DEBUG: ProductListingBloc _fetchAll start');
     // 1. Fetch categories
     final categoriesResult = await _getCategories(const NoParams());
     
@@ -76,11 +72,9 @@ class ProductListingBloc
 
     categoriesResult.fold(
       (failure) {
-        print('DEBUG: ProductListingBloc categories failure: ${failure.message}');
         categoryError = failure.message;
       },
       (data) {
-        print('DEBUG: ProductListingBloc categories success: ${data.length}');
         categories = data;
       },
     );
@@ -91,7 +85,6 @@ class ProductListingBloc
     }
 
     // 2. Fetch all products and products for each category in parallel
-    print('DEBUG: ProductListingBloc fetching products for ${categories.length + 1} categories');
     final List<Future<dynamic>> fetchFutures = [
       _getProducts(const GetProductsParams()), // All
     ];
@@ -102,14 +95,12 @@ class ProductListingBloc
 
     try {
       final results = await Future.wait(fetchFutures);
-      print('DEBUG: ProductListingBloc products fetched successfully');
 
       // Check for failures
       for (final result in results) {
         final eitherResult = result as Either<Failure, List<Product>>;
         if (eitherResult.isLeft()) {
           final failure = eitherResult.fold((f) => f, (_) => null);
-          print('DEBUG: ProductListingBloc individual fetch failure: ${failure?.message}');
           emit(ProductListingError(message: failure?.message ?? 'Failed to load products'));
           return;
         }
@@ -123,14 +114,12 @@ class ProductListingBloc
             (results[i + 1] as Either<Failure, List<Product>>).getOrElse((_) => <Product>[]);
       }
 
-      print('DEBUG: ProductListingBloc emitting LoadedState with ${allProducts.length} products');
       emit(ProductListingLoaded(
         allProducts: allProducts,
         categories: categories,
         productsByCategory: productsByCategory,
       ));
     } catch (e) {
-      print('DEBUG: ProductListingBloc global fetch error: $e');
       emit(ProductListingError(message: e.toString()));
     }
   }
