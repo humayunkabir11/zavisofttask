@@ -7,4 +7,7 @@ import '../entities/product_entity.dart';
 abstract interface class ProductRepository {
   /// Fetches all products. If [category] is provided, filters by category.
   Future<Either<Failure, List<Product>>> getProducts({String? category});
+
+  /// Fetches all product categories.
+  Future<Either<Failure, List<String>>> getCategories();
 }

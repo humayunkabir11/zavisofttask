@@ -35,8 +35,8 @@ class LoginInjector {
       () => GetUserProfileUseCase(sl<LoginRepository>()),
     );
 
-    // ── BLoCs (factory = new instance per page) ──────────────────────────
-    sl.registerFactory(
+    // ── BLoCs (singleton = shared instance) ──────────────────────────
+    sl.registerLazySingleton(
       () => AuthBloc(
         loginUseCase: sl(),
         getUserProfileUseCase: sl(),

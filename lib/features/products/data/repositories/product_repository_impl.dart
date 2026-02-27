@@ -31,4 +31,19 @@ class ProductRepositoryImpl implements ProductRepository {
       return left(Failure(message: "Something went wrong"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getCategories() async {
+    try {
+      if (!await (connectionChecker.isConnected)) {
+        return left(Failure(message: "no internet connection!!"));
+      }
+      final result = await remoteSource.getCategories();
+      return right(result);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.message));
+    } catch (e) {
+      return left(Failure(message: "Something went wrong"));
+    }
+  }
 }

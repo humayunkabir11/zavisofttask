@@ -6,5 +6,10 @@ abstract class ProductListingEvent {}
 class LoadAllProductsEvent extends ProductListingEvent {}
 
 /// Refresh products for ALL tabs (triggered by pull-to-refresh on any tab).
-/// Semantically the same as LoadAllProducts but makes intent explicit.
 class RefreshAllProductsEvent extends ProductListingEvent {}
+
+/// Search products across all categories.
+class SearchProductsEvent extends ProductListingEvent {
+  final String query;
+  SearchProductsEvent(this.query);
+}

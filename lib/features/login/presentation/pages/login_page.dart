@@ -14,10 +14,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<AuthBloc>(),
-      child: const _LoginView(),
-    );
+    return const _LoginView();
   }
 }
 
@@ -43,10 +40,12 @@ class _LoginViewState extends State<_LoginView> {
 
   void _submit() {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    context.read<AuthBloc>().add(LoginEvent(
-          username: _usernameCtrl.text.trim(),
-          password: _passwordCtrl.text.trim(),
-        ));
+    context.read<AuthBloc>().add(
+      LoginEvent(
+        username: _usernameCtrl.text.trim(),
+        password: _passwordCtrl.text.trim(),
+      ),
+    );
   }
 
   @override
@@ -56,7 +55,7 @@ class _LoginViewState extends State<_LoginView> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.goNamed(RoutePath.productListingPage, extra: state.user);
+            context.goNamed(RoutePath.mainPage, extra: state.user);
           } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -74,7 +73,7 @@ class _LoginViewState extends State<_LoginView> {
               children: [
                 SizedBox(height: 60.h),
 
-                // ── Header ─────────────────────────────────
+                /// ---------------------  Header -----------------------
                 Center(
                   child: Container(
                     width: 80.w,
@@ -141,8 +140,9 @@ class _LoginViewState extends State<_LoginView> {
                             color: Colors.grey,
                             size: 20.sp,
                           ),
-                          onPressed: () =>
-                              setState(() => _obscurePassword = !_obscurePassword),
+                          onPressed: () => setState(
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                         ),
                         validator: (v) =>
                             (v?.isEmpty ?? true) ? 'Enter password' : null,
@@ -174,7 +174,9 @@ class _LoginViewState extends State<_LoginView> {
                                 width: 22,
                                 height: 22,
                                 child: CircularProgressIndicator(
-                                    color: Colors.white, strokeWidth: 2),
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
                               )
                             : Text(
                                 'Login',
@@ -191,7 +193,9 @@ class _LoginViewState extends State<_LoginView> {
                   child: Text(
                     'Demo: mor_2314 / 83r5^_',
                     style: interRegular.copyWith(
-                        fontSize: 12.sp, color: const Color(0xff979797)),
+                      fontSize: 12.sp,
+                      color: const Color(0xff979797),
+                    ),
                   ),
                 ),
               ],
@@ -218,13 +222,14 @@ class _LoginViewState extends State<_LoginView> {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: interRegular.copyWith(
-            fontSize: 13.sp, color: const Color(0xff979797)),
+          fontSize: 13.sp,
+          color: const Color(0xff979797),
+        ),
         prefixIcon: Icon(icon, size: 20.sp, color: const Color(0xff979797)),
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: Colors.white,
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: const BorderSide(color: Color(0xffE0E0E0)),
@@ -235,8 +240,7 @@ class _LoginViewState extends State<_LoginView> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide:
-              const BorderSide(color: Color(0xffE54B4B), width: 1.5),
+          borderSide: const BorderSide(color: Color(0xffE54B4B), width: 1.5),
         ),
       ),
     );

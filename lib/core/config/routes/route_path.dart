@@ -8,7 +8,22 @@ class RoutePath {
   /// Product listing screen (shown after login)
   static const String productListingPage = '/products';
   static const String productListingPagePath = '/products';
+  ///main page
+  static const String mainPage = '/mainPage';
+  static const String mainPagePath = '/mainPagePath';
 
+
+  ///attendance page
+  static const String attendancePage = '/attendancePage';
+  static const String attendancePagePath = '/attendancePagePath';
+
+  ///chat page
+  static const String chatPage = '/chatPage';
+  static const String chatPagePath = '/chatPagePath';
+
+  ///message page
+  static const String messagePage = '/messagePage';
+  static const String messagePagePath = '/messagePagePath';
   // ── Profile ───────────────────────────────────────────────────────────
   /// Profile screen
   static const String profilePage = '/profile';

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:zavi_soft_task/features/login/presentation/bloc/auth/auth_bloc.dart';
 import '../../../../core/config/theme/style.dart';
 import '../../../../core/di/init_dependencies.dart';
+import '../../../login/presentation/bloc/auth/auth_bloc.dart';
 import '../bloc/profile_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -14,7 +15,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<ProfileBloc>()..add(const GetProfileEvent(userId: 1)),
+      create: (context) =>
+          sl<ProfileBloc>()..add(const GetProfileEvent(userId: 1)),
       child: const _ProfileView(),
     );
   }
@@ -32,27 +34,33 @@ class _ProfileView extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black, size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.black,
+            size: 20,
+          ),
           onPressed: () => context.pop(),
         ),
         title: Text(
           'Profile',
           style: interSemiBold.copyWith(fontSize: 18.sp, color: Colors.black),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit_outlined, color: Color(0xffE54B4B), size: 22),
-            onPressed: () {},
-          ),
-        ],
+
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
-            return const Center(child: CircularProgressIndicator(color: Color(0xffE54B4B)));
+            return const Center(
+              child: CircularProgressIndicator(color: Color(0xffE54B4B)),
+            );
           }
           if (state is ProfileError) {
-            return Center(child: Text(state.message, style: interRegular.copyWith(color: Colors.red)));
+            return Center(
+              child: Text(
+                state.message,
+                style: interRegular.copyWith(color: Colors.red),
+              ),
+            );
           }
           if (state is ProfileLoaded) {
             final user = state.user;
@@ -70,7 +78,10 @@ class _ProfileView extends StatelessWidget {
                           height: 100.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xffE54B4B), width: 2),
+                            border: Border.all(
+                              color: const Color(0xffE54B4B),
+                              width: 2,
+                            ),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.1),
@@ -85,7 +96,10 @@ class _ProfileView extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   user.firstName[0].toUpperCase(),
-                                  style: interBold.copyWith(fontSize: 32.sp, color: const Color(0xffE54B4B)),
+                                  style: interBold.copyWith(
+                                    fontSize: 32.sp,
+                                    color: const Color(0xffE54B4B),
+                                  ),
                                 ),
                               ),
                             ),
@@ -100,7 +114,11 @@ class _ProfileView extends StatelessWidget {
                               color: Color(0xffE54B4B),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.camera_alt, color: Colors.white, size: 16),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                           ),
                         ),
                       ],
@@ -109,11 +127,17 @@ class _ProfileView extends StatelessWidget {
                   Gap(16.h),
                   Text(
                     user.fullName,
-                    style: interBold.copyWith(fontSize: 22.sp, color: const Color(0xff222222)),
+                    style: interBold.copyWith(
+                      fontSize: 22.sp,
+                      color: const Color(0xff222222),
+                    ),
                   ),
                   Text(
                     '@${user.username}',
-                    style: interMedium.copyWith(fontSize: 14.sp, color: const Color(0xff797979)),
+                    style: interMedium.copyWith(
+                      fontSize: 14.sp,
+                      color: const Color(0xff797979),
+                    ),
                   ),
                   Gap(32.h),
 
@@ -126,12 +150,20 @@ class _ProfileView extends StatelessWidget {
                   Gap(24.h),
                   _buildSectionTitle('Address'),
                   _buildInfoCard([
-                    _buildInfoTile(Icons.location_on_outlined, 'Street', user.street),
-                    _buildInfoTile(Icons.store_outlined, 'City', '${user.city}, ${user.zipcode}'),
+                    _buildInfoTile(
+                      Icons.location_on_outlined,
+                      'Street',
+                      user.street,
+                    ),
+                    _buildInfoTile(
+                      Icons.store_outlined,
+                      'City',
+                      '${user.city}, ${user.zipcode}',
+                    ),
                   ]),
                   Gap(40.h),
 
-                  // ── Logout ─────────────────────────────────────────────
+                  /// ----------------------- Logout------------------
                   SizedBox(
                     width: double.infinity,
                     child: TextButton.icon(
@@ -139,9 +171,16 @@ class _ProfileView extends StatelessWidget {
                         foregroundColor: const Color(0xffE54B4B),
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print('DEBUG: ProfilePage Logout button pressed');
+                        context.read<AuthBloc>().add(LogoutEvent());
+                        context.go('/login');
+                      },
                       icon: const Icon(Icons.logout_rounded),
-                      label: Text('Log Out', style: interSemiBold.copyWith(fontSize: 16.sp)),
+                      label: Text(
+                        'Log Out',
+                        style: interSemiBold.copyWith(fontSize: 16.sp),
+                      ),
                     ),
                   ),
                   Gap(20.h),
@@ -162,7 +201,10 @@ class _ProfileView extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: interBold.copyWith(fontSize: 16.sp, color: const Color(0xff222222)),
+          style: interBold.copyWith(
+            fontSize: 16.sp,
+            color: const Color(0xff222222),
+          ),
         ),
       ),
     );
@@ -181,9 +223,7 @@ class _ProfileView extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: children,
-      ),
+      child: Column(children: children),
     );
   }
 
@@ -207,11 +247,17 @@ class _ProfileView extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: interMedium.copyWith(fontSize: 12.sp, color: const Color(0xff979797)),
+                  style: interMedium.copyWith(
+                    fontSize: 12.sp,
+                    color: const Color(0xff979797),
+                  ),
                 ),
                 Text(
                   value,
-                  style: interSemiBold.copyWith(fontSize: 14.sp, color: const Color(0xff222222)),
+                  style: interSemiBold.copyWith(
+                    fontSize: 14.sp,
+                    color: const Color(0xff222222),
+                  ),
                 ),
               ],
             ),
