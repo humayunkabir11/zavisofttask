@@ -1,11 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:zavi_soft_task/core/common/widgets/field/custom_text_field.dart';
 import 'package:zavi_soft_task/core/extensions/custom_extentions.dart';
+
 import '../../../../core/config/theme/style.dart';
 import '../../../../core/di/init_dependencies.dart';
 import '../../domain/entities/product_entity.dart';
@@ -67,15 +65,7 @@ class _ProductListingViewState extends State<_ProductListingView>
         }
       },
       builder: (context, state) {
-        if (state is ProductListingError) {
-          if (_tabController == null) {
-            return _buildErrorState(state.message);
-          } else {
-            // Show error but keep existing data if any (or simple error view)
-            // For now, if there's an error, just show the error state properly.
-            return _buildErrorState(state.message);
-          }
-        }
+       
 
         if (state is ProductListingInitial || (state is ProductListingLoading && _tabController == null)) {
           return const Scaffold(
@@ -110,18 +100,6 @@ class _ProductListingViewState extends State<_ProductListingView>
                   return [
 
                     _buildSliverAppBar(innerBoxIsScrolled),
-
-                    ///--------------- Floating Search Bar
-                    SliverPersistentHeader(
-                      pinned: true,
-                      floating: true,
-                      delegate: _SearchHeaderDelegate(
-                        onChanged: (query) {
-                          context.read<ProductListingBloc>().add(SearchProductsEvent(query));
-                        },
-                        controller: _searchController,
-                      ),
-                    ),
 
                     // Sticky Tab Bar
                     SliverPersistentHeader(
@@ -169,45 +147,28 @@ class _ProductListingViewState extends State<_ProductListingView>
       },
     );
   }
-
-  Widget _buildErrorState(String message) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.wifi_off, size: 48, color: Colors.grey),
-            Gap(12.h),
-            Text(message, textAlign: TextAlign.center, style: interRegular.copyWith(color: Colors.grey)),
-            Gap(12.h),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffE54B4B),
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () => context.read<ProductListingBloc>().add(LoadAllProductsEvent()),
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  
 
   Widget _buildSliverAppBar(bool innerBoxIsScrolled) {
     return SliverAppBar(
       expandedHeight: 120.0,
-      pinned: false,
+      toolbarHeight: 0,
+      pinned: true,
       floating: false,
       snap: false,
       backgroundColor: const Color(0xffE54B4B),
       elevation: 0,
       automaticallyImplyLeading: false,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(62.0),
+        child: _SearchBottomBar(controller: _searchController, onChanged: (q) {
+          context.read<ProductListingBloc>().add(SearchProductsEvent(q));
+        }),
+      ),
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.parallax,
         background: _BannerContent(user: widget.user),
       ),
-
     );
   }
 }
@@ -218,92 +179,84 @@ class _BannerContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xffE54B4B), Color(0xffC0392B)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.asset(
+          'assets/images/product_banner.png',
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
         ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 18.r,
-                backgroundColor: Colors.white24,
-                child: Text(
-                  user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : 'U',
-                  style: interBold.copyWith(fontSize: 14.sp, color: Colors.white),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Hello, ${user.fullName}',
-                    style: interSemiBold.copyWith(fontSize: 14.sp, color: Colors.white),
-                  ),
-                  Text(
-                    user.email,
-                    style: interRegular.copyWith(fontSize: 11.sp, color: Colors.white.withAlpha(200)),
-                  ),
-                ],
-              ),
-            ],
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.black.withAlpha(60),
+                Colors.black.withAlpha(110),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
 
-class _SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Function(String) onChanged;
+class _SearchBottomBar extends StatelessWidget {
   final TextEditingController controller;
+  final ValueChanged<String> onChanged;
 
-  _SearchHeaderDelegate({required this.onChanged, required this.controller});
-
-  @override
-  double get minExtent =>  80.h;
-  @override
-  double get maxExtent =>  80.0.h;
+  const _SearchBottomBar({required this.controller, required this.onChanged});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 80.h,
-      alignment: Alignment.center,
-      color: const Color(0xffE54B4B),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: CustomTextField(
-        hintText: 'Search products...',
-        controller: controller,
-        borderRadius: 8,
-        filledColor: Colors.white,
-        enabled: true,
-        onChanged: onChanged,
-        prefixIcon: Icon(Icons.search_rounded, color: Colors.grey, size: 20.sp),
-        suffixIcon: controller.text.isNotEmpty? IconButton(
-          icon: const Icon(Icons.clear, size: 18, color: Colors.grey),
-          onPressed: () {
-            controller.clear();
-            onChanged('');
-          },
-        ) : SizedBox(),
+      height: 62.0,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 9.h),
+      child: Container(
+        height: 44.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(30),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: controller,
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            hintText: 'Search products...',
+            hintStyle: interRegular.copyWith(fontSize: 13.sp, color: Colors.grey),
+            border: InputBorder.none,
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(vertical: 13.h),
+            prefixIcon: Icon(Icons.search_rounded, color: const Color(0xffE54B4B), size: 20.sp),
+            suffixIcon: controller.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.clear, size: 18, color: Colors.grey),
+                    onPressed: () {
+                      controller.clear();
+                      onChanged('');
+                    },
+                  )
+                : null,
+          ),
+          style: interRegular.copyWith(fontSize: 13.sp),
+        ),
       ),
     );
   }
-
-  @override
-  bool shouldRebuild(covariant _SearchHeaderDelegate oldDelegate) => true;
 }
+
+
 
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
