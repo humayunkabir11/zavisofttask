@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ///-------------------------------------  Product Image ──────────────────────────────
+            ///-------------------------------------  Product Image -------------------
             Expanded(
               flex: 3,
               child: _ProductImage(imageUrl: product.image, tag: product.id.toString()),
@@ -144,7 +144,19 @@ class _ProductInfo extends StatelessWidget {
                   color: const Color(0xffE54B4B),
                 ),
               ),
-              _RatingBadge(rating: product.ratingRate),
+              Row(
+                children: [
+                  Icon(Icons.star_rounded, color: Colors.amber, size: 16.sp),
+                  SizedBox(width: 4.w),
+                  Text(
+                    product.ratingRate.toStringAsFixed(1),
+                    style: interSemiBold.copyWith(
+                      fontSize: 12.sp,
+                      color: const Color(0xff444444),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ],
@@ -153,25 +165,3 @@ class _ProductInfo extends StatelessWidget {
   }
 }
 
-class _RatingBadge extends StatelessWidget {
-  final double rating;
-
-  const _RatingBadge({required this.rating});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(Icons.star_rounded, color: Colors.amber, size: 16.sp),
-        SizedBox(width: 4.w),
-        Text(
-          rating.toStringAsFixed(1),
-          style: interSemiBold.copyWith(
-            fontSize: 12.sp,
-            color: const Color(0xff444444),
-          ),
-        ),
-      ],
-    );
-  }
-}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zavi_soft_task/core/extensions/custom_extentions.dart';
@@ -93,6 +94,7 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
                       delegate: StickyTabBarDelegate(
                         tabBar: TabBar(
                           controller: _tabController,
+
                           isScrollable: true,
                           indicator: BoxDecoration(
                             color: const Color(0xffE54B4B),
@@ -103,9 +105,9 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
                           labelColor: Colors.white,
                           unselectedLabelColor: const Color(0xff555555),
                           tabAlignment: TabAlignment.start,
-                          labelStyle: interSemiBold.copyWith(fontSize: 13.sp),
+                          labelStyle: interSemiBold.copyWith(fontSize: 12.sp),
                           unselectedLabelStyle:
-                          interMedium.copyWith(fontSize: 13.sp),
+                          interMedium.copyWith(fontSize: 12.sp),
                           dividerColor: Colors.transparent,
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
                           tabs: tabs
@@ -139,7 +141,7 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
 ///-------------------------- banner & sliver app bar
   Widget _buildSliverAppBar(bool innerBoxIsScrolled) {
     return SliverAppBar(
-      expandedHeight: 120.0,
+      expandedHeight: 140.0,
       toolbarHeight: 0,
       pinned: true,
       floating: false,
@@ -157,7 +159,7 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
       ),
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.parallax,
-        background: ProductBanner(user: widget.user),
+        background: ProductBanner(),
       ),
     );
   }

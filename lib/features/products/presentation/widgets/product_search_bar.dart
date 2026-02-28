@@ -33,12 +33,14 @@ class ProductSearchBar extends StatelessWidget {
         child: TextField(
           controller: controller,
           onChanged: onChanged,
+          style: interRegular.copyWith(fontSize: 14.sp,color: Colors.black),
+          cursorColor: Colors.grey,
           decoration: InputDecoration(
             hintText: 'Search products...',
-            hintStyle: interRegular.copyWith(fontSize: 13.sp, color: Colors.grey),
+            hintStyle: interRegular.copyWith(fontSize: 14.sp, color: Colors.grey),
             border: InputBorder.none,
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 13.h),
+            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
             prefixIcon: Icon(
               Icons.search_rounded,
               color: const Color(0xffE54B4B),
@@ -54,7 +56,7 @@ class ProductSearchBar extends StatelessWidget {
                   )
                 : null,
           ),
-          style: interRegular.copyWith(fontSize: 13.sp),
+
         ),
       ),
     );

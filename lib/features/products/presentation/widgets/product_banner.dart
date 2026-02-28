@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../login/domain/entities/user_entity.dart';
 
 class ProductBanner extends StatelessWidget {
-  final UserEntity user;
-  const ProductBanner({super.key, required this.user});
+
+  const ProductBanner({super.key, });
 
   @override
   Widget build(BuildContext context) {

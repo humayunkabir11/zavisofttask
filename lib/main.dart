@@ -39,7 +39,7 @@ void main() async {
 
       runApp(
         DevicePreview(
-          enabled: false,
+          enabled: true,
           tools: const [...DevicePreview.defaultTools],
           builder: (context) => const MyApp(),
         ),
