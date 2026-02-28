@@ -9,12 +9,8 @@ import '../../../domain/usecases/get_user_profile_usecase.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-/// Manages authentication: login → store token → fetch user profile.
-///
-/// Separation of concerns:
-///   - AuthBloc handles ONLY auth state (who is logged in, login errors).
-///   - SecureStorageService persists the token.
-///   - ProductListingBloc (separate feature) handles all product data.
+/// ------------------- Manages authentication: login → store token → fetch user profile.
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase _loginUseCase;
   final GetUserProfileUseCase _getUserProfileUseCase;

@@ -2,7 +2,7 @@ class AppStrings {
   // App name
   static const String appName = 'E-commerce Test';
   // App description
-  static const String appDescription = 'Testing App';
+  static const String appDescription = 'Testing App for Zavi Soft';
   // App version
   static const String appVersion = '1.0.0';
  

@@ -19,8 +19,8 @@ class _MainPageState extends State<MainPage> {
 
   final _navItems = [
     {"label": "Home", "icon": Assets.icons.icHome},
-    {"label": "Message", "icon": Assets.icons.icMessage},
-    {"label": "Order", "icon": Assets.icons.icOrder},
+    {"label": "Chat", "icon": Assets.icons.icMessage},
+    {"label": "Cart", "icon": Assets.icons.icOrder},
     {"label": "Profile", "icon": Assets.icons.icProfile},
   ];
 

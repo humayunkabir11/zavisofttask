@@ -13,7 +13,7 @@ class AppRoute {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static final _homeNavigatorKey = GlobalKey<NavigatorState>();
-  static final _attendanceNavigatorKey = GlobalKey<NavigatorState>();
+  static final _cartNavigatorKey = GlobalKey<NavigatorState>();
   static final _chatNavigatorKey = GlobalKey<NavigatorState>();
   static final _profileNavigatorKey = GlobalKey<NavigatorState>();
   static final GoRouter _routerX = GoRouter(
@@ -30,15 +30,6 @@ class AppRoute {
       ),
 
 
-      //
-      // // ── Profile ───────────────────────────────────────────────────────
-      // GoRoute(
-      //   name: RoutePath.profilePage,
-      //   path: RoutePath.profilePagePath,
-      //   pageBuilder: (context, state) =>
-      //       const NoTransitionPage(child: ProfilePage()),
-      // ),
-
       // ///main page route
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -52,7 +43,7 @@ class AppRoute {
             navigatorKey: _homeNavigatorKey,
             routes: [
               // top route inside branch
-              // ── Product Listing (after login) ─────────────────────────────────
+              /// ── Product Listing (after login) ─────────────────────────────────
               GoRoute(
                 name: RoutePath.mainPage,
                 path: RoutePath.mainPagePath,
@@ -67,13 +58,13 @@ class AppRoute {
 
           ////Chat branch
           StatefulShellBranch(
-            initialLocation: RoutePath.attendancePagePath,
-            navigatorKey: _attendanceNavigatorKey,
+            initialLocation: RoutePath.cartPagePath,
+            navigatorKey: _cartNavigatorKey,
             routes: [
               // top route inside branch
               GoRoute(
-                name: RoutePath.attendancePage,
-                path: RoutePath.attendancePagePath,
+                name: RoutePath.cartPage,
+                path: RoutePath.cartPagePath,
                 pageBuilder: (context, state) =>
                     NoTransitionPage(child: Cart()),
               ),
@@ -95,7 +86,7 @@ class AppRoute {
             ],
           ),
 
-          ///Profile branch
+          /// ---------------- Profile branch
           StatefulShellBranch(
             initialLocation: RoutePath.profilePagePath,
             navigatorKey: _profileNavigatorKey,

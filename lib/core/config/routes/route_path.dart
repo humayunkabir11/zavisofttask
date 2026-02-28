@@ -14,8 +14,8 @@ class RoutePath {
 
 
   ///attendance page
-  static const String attendancePage = '/attendancePage';
-  static const String attendancePagePath = '/attendancePagePath';
+  static const String cartPage = '/cartPage';
+  static const String cartPagePath = '/cartPage';
 
   ///chat page
   static const String chatPage = '/chatPage';

@@ -33,7 +33,7 @@ extension EndPointExtensions on String {
   }
 }
 
-extension FormateString on String? {
+/*extension FormateString on String? {
   String? get toRemoveMemberText {
     return this?.replaceAll(RegExp(r'^Member-', caseSensitive: false), '');
   }
@@ -183,7 +183,7 @@ extension FormateDate on DateTime? {
     }
   }
 
-}
+}*/
 /*
 
 extension FileTypeColor on FileType {

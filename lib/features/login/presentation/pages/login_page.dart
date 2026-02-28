@@ -114,7 +114,7 @@ class _LoginViewState extends State<_LoginView> {
                 ),
                 SizedBox(height: 40.h),
 
-                // ── Form ───────────────────────────────────
+                ///----------------------------------- Form ---------------------------
                 Form(
                   key: _formKey,
                   child: Column(
@@ -152,7 +152,7 @@ class _LoginViewState extends State<_LoginView> {
                 ),
                 SizedBox(height: 32.h),
 
-                // ── Login Button ───────────────────────────
+                /// -------------------------------  Login Button --------------------------
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     final isLoading = state is AuthLoading;
@@ -188,7 +188,7 @@ class _LoginViewState extends State<_LoginView> {
                 ),
                 SizedBox(height: 20.h),
 
-                // ── Demo Hint ──────────────────────────────
+                /// -------------- Demo Credential ------------------------
                 Center(
                   child: Text(
                     'Demo: mor_2314 / 83r5^_',

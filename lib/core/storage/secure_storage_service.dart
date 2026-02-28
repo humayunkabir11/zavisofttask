@@ -16,17 +16,17 @@ class SecureStorageService {
     ),
   );
 
-  // ================== WRITE ==================
+  /// ================== WRITE ==================
   Future<void> write(String key, String value) async {
     await _storage.write(key: key, value: value);
   }
 
-  // ================== READ ==================
+  /// ================== READ ==================
   Future<String?> read(String key) async {
     return await _storage.read(key: key);
   }
 
-  // ================== DELETE ==================
+  /// ================== DELETE ==================
   Future<void> delete(String key) async {
     await _storage.delete(key: key);
   }
@@ -35,7 +35,7 @@ class SecureStorageService {
     await _storage.deleteAll();
   }
 
-  // ================== UTIL ==================
+  /// ================== UTIL ==================
   Future<bool> containsKey(String key) async {
     return await _storage.containsKey(key: key);
   }
