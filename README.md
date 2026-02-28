@@ -1,23 +1,42 @@
 # zavi_soft_task
 
-A new Flutter project.
+A Flutter project demonstrating a Daraz-style product listing with a single-scroll architecture.
 
-Collapsible header (banner + search)
+## Requirements Fulfilled
 
-Sticky TabBar
+- Collapsible header (banner + search)
+- Sticky TabBar
+- Product tabs from FakeStore API categories
+- Login + Profile screen integration
+- Exactly ONE vertical scrollable feel
+- Pull-to-refresh from any tab
+- No scroll conflicts or jitter
+- Swipe + Tap tab switching
+- No scroll position reset on tab change
 
- product tabs From API product category.
+## How it works
+## Horizontal swipe
 
-FakeStore API integration
+Implemented with TabBarView inside a NestedScrollView.
 
-Login + Profile screen
+Swipe gestures move between tabs, while vertical scroll goes to the main scroll.
 
-Exactly ONE vertical scrollable
+## Vertical scroll ownership
 
-Pull-to-refresh from any tab
+NestedScrollView handles the vertical scroll.
 
-No scroll conflicts
+Header (SliverAppBar) collapses as you scroll.
 
-Swipe + Tap tab switching
+Tab content scrolls after the header collapses, giving one smooth scroll experience.
 
-No scroll position reset on tab change
+## Trade-offs / limitations
+
+Pull-to-refresh is inside each tab to work correctly with multiple tabs.
+
+Tabs with very different content lengths may slightly shift the header during fast tab changes. PageStorageKey is used to reduce this.
+
+## Run Instructions
+
+```bash
+flutter run
+```

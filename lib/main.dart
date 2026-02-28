@@ -39,7 +39,7 @@ void main() async {
 
       runApp(
         DevicePreview(
-          enabled: true,
+          enabled: false,
           tools: const [...DevicePreview.defaultTools],
           builder: (context) => const MyApp(),
         ),
@@ -52,19 +52,7 @@ void main() async {
       );
     },
   );
-/// ------------- device orientation/ (off rotation)--------
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
-  /// --------------------- status bar -------------
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.black,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
 }
 
 

@@ -83,8 +83,10 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
             child: Scaffold(
               backgroundColor: const Color(0xffF5F5F5),
               body: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext ctx, bool innerBoxIsScrolled) {
+        ///--------- [NestedScrollView] owns the vertical scroll, coordinating between
+        /// ----------the outer sliver header and the inner tab content.
+        headerSliverBuilder:
+            (BuildContext ctx, bool innerBoxIsScrolled) {
                   return [
                     _buildSliverAppBar(innerBoxIsScrolled),
 
@@ -119,8 +121,9 @@ class ProductListingViewState extends State<ProductListingView> with TickerProvi
                   ];
                 },
                 body: TabBarView(
-                  controller: _tabController,
-                  physics: const BouncingScrollPhysics(),
+          /// [TabBarView] handles horizontal swipe navigation between category tabs.
+          controller: _tabController,
+          physics: const BouncingScrollPhysics(),
                   children: List.generate(
                     tabs.length,
                         (index) => ProductTabContent(

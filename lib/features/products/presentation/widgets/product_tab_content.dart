@@ -46,7 +46,7 @@ class ProductTabContentState extends State<ProductTabContent> with AutomaticKeep
           onRefresh: widget.onRefresh,
           child: products.isEmpty
               ? CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverFillRemaining(
                 child: Center(
@@ -62,7 +62,7 @@ class ProductTabContentState extends State<ProductTabContent> with AutomaticKeep
           )
               : CustomScrollView(
             key: PageStorageKey<String>('tab_${widget.tabIndex}'),
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
